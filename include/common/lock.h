@@ -162,6 +162,13 @@ static inline void mutex_lock(mutex_t *m)
 	}
 }
 
+static inline uint32_t mutex_trylock(mutex_t *m)
+{
+	uint32_t c;
+	c = (uint32_t)atomic_inc_return(&m->raw);
+	return 1 == c ? c : 0; 
+}
+
 static inline void mutex_unlock(mutex_t *m)
 {
 	uint32_t c = 0;
